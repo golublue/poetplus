@@ -1,0 +1,36 @@
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  padding: 15px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+}
+
+.block span {
+  width: 40px;
+}
+
+.block textarea {
+  margin-right: 10px;
+  flex-grow: 1;
+  resize: none;
+  outline: none;
+  border: none;
+  border-top: 1px solid #cecece;
+  padding: 10px;
+  padding-bottom: 1px;
+}
+
+.block:last-child textarea {
+  border-bottom: 1px solid #cecece;
+}
+
+button {
+  margin: 30px 0;
+}
