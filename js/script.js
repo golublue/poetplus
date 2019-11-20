@@ -27,11 +27,12 @@ function init () {
     observe(text, 'keydown', delayedResize);
   
     resize();
+    count(text);
   })
 }
 
 $(document).ready(() => {
-  const storage = JSON.parse(localStorage.getItem('storage'));
+  const storage = JSON.parse(localStorage.getItem('storage')) || [];
   if (storage.length && storage.map(x => x).join('').trim().length) {
     $('.container').empty();
     for (let i = 0; i < storage.length; i++) {
@@ -145,15 +146,21 @@ $(document).on('keydown', (e) => {
 })
 
 $(document).on('keyup', (e) => {
-  const val = $(e.target).val();
+  count(e.target);
+})
+
+function count(target) {
+  const val = $(target).val();
   let num = 0;
   for (let i = 0; i < val.length; i++) {
     if (vowels.includes(val[i])) {
       num++;
     }
   }
-  $(e.target).next().text(num);
-})
+  if ($(target).next().length) {
+    $(target).next().text(num);
+  }
+}
 
 function done() {
   $('.res').empty();
