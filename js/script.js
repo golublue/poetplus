@@ -1,15 +1,10 @@
-let observe;
 const vowels = ['у', 'е', 'ы', 'а', 'о', 'ё', 'э', 'я', 'и', 'ю'];
 
-if (window.attachEvent) {
-  observe = function (element, event, handler) {
-    element.attachEvent('on'+event, handler);
-  };
-} else {
-  observe = function (element, event, handler) {
-    element.addEventListener(event, handler, false);
-  };
-}
+const observe = function (element, event, handler) {
+  element.removeEventListener(event, handler, false);
+  element.addEventListener(event, handler, false);
+};
+
 function init () {
   const areas = document.querySelectorAll('textarea');
   areas.forEach(text => {
@@ -25,7 +20,7 @@ function init () {
     observe(text, 'paste',   delayedResize);
     observe(text, 'drop',    delayedResize);
     observe(text, 'keydown', delayedResize);
-  
+
     resize();
     count(text);
   })
@@ -131,7 +126,6 @@ $(document).on('keydown', (e) => {
         <span>0</span>
       </div>
     `).insertAfter(parent);
-    init();
     const next = parent.next().children('textarea');
     next.focus();
     if (selectionEnd !== $(e.target).val().length) {
@@ -141,6 +135,7 @@ $(document).on('keydown', (e) => {
       next[0].selectionStart = 0;
       next[0].selectionEnd = 0;
     }
+    init();
     return false;
   }
 })
@@ -168,4 +163,28 @@ function done() {
   let text = '';
   areas.forEach(area => text += $(area).val() + '<br>');
   $('.res').append(text);
+}
+
+function erase() {
+  $('.container').empty();
+  $('.container').append(`
+    <div class="block">
+      <textarea rows="1"></textarea>
+      <span>0</span>
+    </div>
+    <div class="block">
+      <textarea rows="1"></textarea>
+      <span>0</span>
+    </div>
+    <div class="block">
+      <textarea rows="1"></textarea>
+      <span>0</span>
+    </div>
+    <div class="block">
+      <textarea rows="1"></textarea>
+      <span>0</span>
+    </div>
+  `);
+  init();
+  localStorage.setItem(storage, '')
 }
